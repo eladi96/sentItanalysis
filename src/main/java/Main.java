@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -24,6 +25,9 @@ public class Main {
             System.out.printf("Positività: %f\n", positività/max);
             System.out.printf("Negatività: %f\n", negatività/max);
             System.out.printf("Polarità: %f\n", polarità);*/
+
+            HashMap<String, Integer> reviews = Reviews.getReviewsAsMap("files/amazon-reviews.tsv");
+            System.out.println(reviews.keySet().toArray()[0]);
 
 
         } catch (IOException e) {

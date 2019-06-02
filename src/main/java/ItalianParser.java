@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ItalianParser {
 
-    public static String parseText(String textFile) throws IOException {
+    public static String parseFile(String textFile) throws IOException {
 
         // Initialize tint pileline and load default properties
         TintPipeline pipeline = new TintPipeline();
@@ -23,6 +23,20 @@ public class ItalianParser {
         String outputPath = "files/JSON-files/" + file.getName().replace(".txt", ".json");
         FileOutputStream outputStream = new FileOutputStream(outputPath);
         pipeline.run(inputStream, outputStream, TintRunner.OutputFormat.JSON);
+
+        return outputPath;
+    }
+
+    public static String parseTexte(String text, String outputPath) throws IOException {
+
+        // Initialize tint pileline and load default properties
+        TintPipeline pipeline = new TintPipeline();
+        pipeline.loadDefaultProperties();
+        pipeline.setProperty("annotators", "ita_toksent,pos,ita_morpho,ita_lemma");
+        pipeline.load();
+
+        FileOutputStream outputStream = new FileOutputStream(outputPath);
+        pipeline.run(text, outputStream, TintRunner.OutputFormat.JSON);
 
         return outputPath;
     }
