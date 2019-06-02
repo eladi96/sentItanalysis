@@ -8,9 +8,9 @@ import eu.fbk.dh.tint.runner.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class ItalianParser {
+class ItalianParser {
 
-    public static String parseFile(String textFile) throws IOException {
+    static String parseFile(String textFile) throws IOException {
 
         // Initialize tint pileline and load default properties
         TintPipeline pipeline = new TintPipeline();
@@ -27,7 +27,7 @@ public class ItalianParser {
         return outputPath;
     }
 
-    public static String parseTexte(String text, String outputPath) throws IOException {
+    static void parseText(String text, String outputPath) throws IOException {
 
         // Initialize tint pileline and load default properties
         TintPipeline pipeline = new TintPipeline();
@@ -38,10 +38,9 @@ public class ItalianParser {
         FileOutputStream outputStream = new FileOutputStream(outputPath);
         pipeline.run(text, outputStream, TintRunner.OutputFormat.JSON);
 
-        return outputPath;
     }
 
-    public static ArrayList<String> getLemmas(String JSONFile) throws IOException {
+    static ArrayList<String> getLemmas(String JSONFile) throws IOException {
 
         ArrayList<String> lemmas = new ArrayList<>();
 

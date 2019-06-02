@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.HashMap;
 
-public class Sentix {
+class Sentix {
 
     private HashMap<String, SentixEntry> sentix;
 
@@ -29,17 +29,17 @@ public class Sentix {
         return sentix.containsKey(lemma) ? sentix.get(lemma).positive : 0;
     }
 
-    public float getNegativeScore(String lemma){
+    float getNegativeScore(String lemma){
 
         return sentix.containsKey(lemma) ? sentix.get(lemma).negative : 0;
     }
 
-    public float getPolarity(String lemma){
+    float getPolarity(String lemma){
 
         return sentix.containsKey(lemma) ? sentix.get(lemma).polarity : 0;
     }
 
-    public float getIntensity(String lemma){
+    float getIntensity(String lemma){
 
         return sentix.containsKey(lemma) ? sentix.get(lemma).intensity : 0;
     }

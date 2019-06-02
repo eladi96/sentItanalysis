@@ -1,6 +1,6 @@
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 public class Main {
 
@@ -8,27 +8,44 @@ public class Main {
 
         try {
 
-            /*Sentix sentix = new Sentix("files/sentix.tsv");
-            ArrayList<String> lemmas = ItalianParser.getLemmas("testo-parsed.json");
+            Sentix sentix = new Sentix("files/sentix.tsv");
 
-            float positività = 0;
-            float negatività = 0;
-            float polarità = 0;
-            int max = 0;
-            for(String lemma : lemmas){
-                max += 1;
-                positività += sentix.getPositiveScore(lemma);
-                negatività += sentix.getNegativeScore(lemma);
-                polarità += sentix.getPolarity(lemma);
+            HashMap<String, Float> reviews = Reviews.getReviewsAsMap("files/amazon-reviews.tsv");
+            HashMap<String, Float> polarity = new HashMap<>();
+
+            int filenum = 0;
+            for(String review : reviews.keySet()){
+
+                filenum++;
+                System.out.println("Parsing review " + filenum + " of " + reviews.size());
+                // System.out.println(review);
+
+                String jsonFile;
+                if(filenum < 10) jsonFile = "files/JSON-files/0" + filenum + ".json";
+                else jsonFile = "files/JSON-files/" + filenum + ".json";
+
+                ItalianParser.parseText(review, jsonFile);
+
+                float score = 0;
+                for(String lemma : ItalianParser.getLemmas(jsonFile)){
+                    score += sentix.getPolarity(lemma) * sentix.getIntensity(lemma);
+                }
+
+                polarity.put(review, score);
+
             }
 
-            System.out.printf("Positività: %f\n", positività/max);
-            System.out.printf("Negatività: %f\n", negatività/max);
-            System.out.printf("Polarità: %f\n", polarità);*/
+            double[] ratings = new double[filenum];
+            double[] scores = new double[filenum];
+            Object[] rev =  reviews.keySet().toArray();
+            for(int i = 0; i < filenum; i++){
+                ratings[i] = reviews.get(rev[i]);
+                scores[i] = polarity.get(rev[i]);
+            }
 
-            HashMap<String, Integer> reviews = Reviews.getReviewsAsMap("files/amazon-reviews.tsv");
-            System.out.println(reviews.keySet().toArray()[0]);
-
+            PearsonsCorrelation pearson = new PearsonsCorrelation();
+            double correlation = pearson.correlation(ratings, scores);
+            System.out.println("Correlazione: " + correlation);
 
         } catch (IOException e) {
             e.printStackTrace();
