@@ -1,6 +1,6 @@
 import java.io.IOException;
 import java.util.HashMap;
-import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
+import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 
 public class Main {
 
@@ -17,8 +17,7 @@ public class Main {
             for(String review : reviews.keySet()){
 
                 filenum++;
-                System.out.println("Parsing review " + filenum + " of " + reviews.size());
-                // System.out.println(review);
+                System.out.print("\rParsing review " + filenum + " of " + reviews.size());
 
                 String jsonFile;
                 if(filenum < 10) jsonFile = "files/JSON-files/0" + filenum + ".json";
@@ -43,9 +42,9 @@ public class Main {
                 scores[i] = polarity.get(rev[i]);
             }
 
-            PearsonsCorrelation pearson = new PearsonsCorrelation();
-            double correlation = pearson.correlation(ratings, scores);
-            System.out.println("Correlazione: " + correlation);
+            SpearmansCorrelation spearmans = new SpearmansCorrelation();
+            double correlation = spearmans.correlation(scores, ratings);
+            System.out.println("\nCorrelazione: " + correlation);
 
         } catch (IOException e) {
             e.printStackTrace();
